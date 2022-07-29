@@ -1,0 +1,124 @@
+let phoneNumber = document.getElementById("phone-number");
+let simNetwork = document.querySelector("#sim-network");
+let cardPin = document.querySelector("#card-pin");
+let generateOnKeyPress = document.querySelectorAll(".generate-input");
+let pin = "";
+let pinDate;
+let customersFromLocalStorage;
+
+// Create list for customers
+const customers = [];
+
+let temp = {
+  phoneNumber: "",
+  simNetwork: "",
+  pinGenerated: [],
+  pinLoaded: []
+};
+
+const tempGenerated = {
+  pin: "",
+  date: ""
+};
+
+const currentLoaded = {
+  pin: "",
+  date: ""
+};
+
+// restore files from localStorage if it is not empty once window is loaded
+onload = function(){
+  if(localStorage !== ""){
+    customersFromLocalStorage = JSON.parse(localStorage.getItem("customers"));
+    customers.push(...customersFromLocalStorage);
+    console.log(customers);
+  }else{
+    console.log(customersFromLocalStorage);
+  }
+};
+
+let eraseGeneratedValues = () =>{
+  temp = {
+    phoneNumber: "",
+    simNetwork: "",
+    pinGenerated: [],
+    pinLoaded: []
+  };
+  pin = "";
+  phoneNumber.value = "";
+  simNetwork.value = "Select Sim Network...";
+}
+
+
+
+function createPin(phoneLine, network) {
+  let phone_sim_array = (phoneLine + network).split("");
+  let n = phone_sim_array.length;
+
+  for (let i = 0; i < n; i++) {
+    pin += phone_sim_array[i];
+    if (pin.length === 16) {
+      break;
+    }
+  }
+
+  customers.forEach(list =>{
+    for(let itemPin of list.pinGenerated){
+      if(itemPin.pin === pin){
+        console.log("Same Pin Generated");
+      }else{
+        console.log("New Pin Generated");
+      }
+    }
+  })
+
+  pinDate = new Date();
+  tempGenerated.date = pinDate;
+  tempGenerated.pin = pin;
+
+  let currentGenerated = Object.assign({}, tempGenerated);
+
+  for(let item of customers){
+    if(item.phoneNumber === phoneLine){
+      // console.log("Phone number already exist");
+    item.pinGenerated.push(currentGenerated);
+    localStorage.setItem("customers", JSON.stringify(customers));
+    eraseGeneratedValues();
+      return;
+    }
+  }
+
+    temp.pinGenerated.push(currentGenerated);
+    temp.phoneNumber = phoneLine;
+    temp.simNetwork = network;
+
+    let customer = Object.assign({}, temp);
+
+    customers.push(customer);
+    localStorage.setItem("customers", JSON.stringify(customers));
+    eraseGeneratedValues();
+}
+
+function validateInput() {
+      if (phoneNumber.value.length === 11 &&
+      Number(phoneNumber.value) &&
+      simNetwork.value !== "Select Sim Network..."){
+          createPin(phoneNumber.value, simNetwork.value);
+  } else {
+    console.log("Enter valid input");
+  }
+}
+
+generateOnKeyPress.forEach(item => {
+  item.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      validateInput();
+    }
+  });
+});
+
+function loadPin() {
+  cardPin.value !== ""
+    ? console.log(cardPin.value)
+    : console.log("No Pin entered");
+}

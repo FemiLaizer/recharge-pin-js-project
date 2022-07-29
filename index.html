@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            <div class="generate">
+                <p>
+                    <label for="phone-number">Phone Number</label>
+                </p>
+                <p>
+                    <input class="generate-input" type="text" id="phone-number"
+                        placeholder="Enter Phone Number Here...">
+                </p>
+                <p>
+                    <label for="sim-network">Sim Network</label>
+                </p>
+                <p>
+                    <select class="generate-input" id="sim-network">
+                        <option value="Select Sim Network...">Select Sim Network...</option>
+                        <option value="MTN">MTN</option>
+                        <option value="Etisalat">Etisalat</option>
+                        <option value="Airtel">Airtel</option>
+                        <option value="Glo">Glo</option>
+                    </select>
+                </p>
+                <button onclick="validateInput()" id="generate-pin">Generate pin</button>
+            </div>
+        </div>
+        <div class="box">
+            <div class="loading">
+                <p>
+                    <label for="card-pin">Card Pin</label>
+                </p>
+                <p>
+                    <input type="text" id="card-pin" placeholder="Enter Recharge Pin Here...">
+                </p>
+                <button onclick="loadPin()" id="load-pin">Recharge pin</button>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>

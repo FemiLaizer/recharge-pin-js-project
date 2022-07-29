@@ -1,0 +1,127 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: rgba(153, 245, 248, 0.5);
+    font-family: sans-serif;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    margin: auto;
+    height: 100vh;
+}
+
+.box{
+    width: 50%;
+    /* height: 100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.generate{
+    width: 95%;
+    border-radius: 5px;
+    padding: 20px 15px 17px;
+    background-color: #faf730;
+    box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.generate p label, .loading p label{
+    font-weight: bold;
+    color: rgb(63, 62, 62);
+}
+
+.generate p:nth-child(2){
+    margin-bottom: 10px;
+}
+
+.generate input, .generate select, .loading input{
+    padding: 10px 5px;
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    text-decoration: none;
+    color: #797777;
+    direction: ltr;
+    transition: ease-in-out 0.1s;
+    background-color: rgba(245, 245, 245, 0.5);
+}
+
+.generate input:focus, .loading input:focus{
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    /* color: white; */
+}
+
+.loading{
+    width: 95%;
+    border-radius: 5px;
+    padding: 20px 12px 10px 12px;
+    background-color: #fc6d54;
+    box-shadow: 0 5px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.loading p, .loading p label{
+    margin-top: 0;
+}
+
+.generate button, .loading button{
+    cursor: pointer;
+    display: flex;
+    padding: 8px 20px;
+    margin:  10px 0;
+    color: rgba(48, 46, 46, 0.884);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.generate button:hover, .loading button:hover{
+    color:rgba(48, 47, 47, 0.5);
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width:768px){
+    .container{
+        flex-direction: column;
+    }
+
+    .box{
+        width: 100%;
+        padding: 0;
+        margin: 15px;
+    }
+
+    body{
+        font-size: 15px;
+    }
+
+    .generate input, .generate select, .loading input{
+        font-size: 14px;
+        padding: 7px 5px;
+    }
+
+    .generate button, .loading button{
+        font-size: 14px;
+        padding: 6px 5px;
+    }
+}
