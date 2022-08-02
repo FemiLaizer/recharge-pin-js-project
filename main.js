@@ -107,22 +107,42 @@ function checkCreatedPin() {
   })
 }
 
-function createPin(phoneLine, network) {
-  let phone_sim_array = (phoneLine + network).split("");
-  let n = phone_sim_array.length;
+function createPin(line, sim) {
+  let phone = line.split(""),
+    network = sim.toLowerCase(),
+    simCode = [],
+    letters = "0abcdefghijklmnopqrstuvwxyz";
+
+  for (let i = 0; i < letters.length; i++) {
+    if (network.includes(letters[i])) {
+      simCode.push(i);
+    }
+  }
+
+  let pinSource = phone.concat(simCode), n = pinSource.length;
+  console.log(pinSource)
 
   const randomDigits = () => {
     return Math.floor(Math.random() * n);
   }
 
   for (let i = 0; i < n; i++) {
-    pin += phone_sim_array[randomDigits()];
-    if (pin.length === 16) {
-      break;
+    pin += pinSource[randomDigits()];
+    if (network === "mtn") {
+      if (pin.length === 12) {
+        break;
+      }
+    } else if (network === "airtel" || network === "glo") {
+      if (pin.length === 14) {
+        break;
+      }
+    } else if (network === "etisalat") {
+      if (pin.length === 16) {
+        break;
+      }
     }
-
   }
-  console.log(pin)
+  console.log(`Network: ${network} Pin: ${pin} Pin-Length: ${pin.length}`)
   checkCreatedPin();
 }
 
