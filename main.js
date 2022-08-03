@@ -41,14 +41,10 @@ const currentLoaded = {
 
 // restore files from localStorage if it is not empty once window is loaded
 onload = function () {
-
   if (localStorage.length !== 0) {
     customersFromLocalStorage = JSON.parse(localStorage.getItem("customers"));
     customers.push(...customersFromLocalStorage);
-    // console.log(customers);
-  } else {
-    localStorage.setItem("customers", JSON.stringify(customers));
-    console.log(customersFromLocalStorage);
+    this.localStorage.clear();
   }
 };
 
@@ -77,7 +73,7 @@ function storeCreatedPin() {
       // console.log("Phone number already exist");
       item.pinGenerated.push(currentGenerated);
 
-      // return;
+      return;
     }
   }
 
@@ -89,14 +85,14 @@ function storeCreatedPin() {
 
   customers.push(customer);
   localStorage.setItem("customers", JSON.stringify(customers));
-  eraseGeneratedValues();
+
 }
 
 function checkCreatedPin() {
   customers.forEach(list => {
     for (let itemPin of list.pinGenerated) {
       if (itemPin.pin === pin) {
-        createPin();
+        return createPin(phoneNumber.value, simNetwork.value);
         console.log("Same Pin Generated");
       } else {
         console.log("New Pin Generated");
@@ -105,6 +101,7 @@ function checkCreatedPin() {
       }
     }
   })
+  eraseGeneratedValues();
 }
 
 function createPin(line, sim) {
@@ -115,12 +112,11 @@ function createPin(line, sim) {
 
   for (let i = 0; i < letters.length; i++) {
     if (network.includes(letters[i])) {
-      simCode.push(i);
+      i.length > 1 ? simCode.push([...i]) : simCode.push(i);
     }
   }
 
   let pinSource = phone.concat(simCode), n = pinSource.length;
-  console.log(pinSource)
 
   const randomDigits = () => {
     return Math.floor(Math.random() * n);
@@ -155,6 +151,7 @@ function validateInput() {
   } else {
     console.log("Enter valid input");
   }
+
 }
 
 generateOnKeyPress.forEach(item => {
