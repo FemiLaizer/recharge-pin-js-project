@@ -44,7 +44,10 @@ onload = function () {
   if (localStorage.length !== 0) {
     customersFromLocalStorage = JSON.parse(localStorage.getItem("customers"));
     customers.push(...customersFromLocalStorage);
-    this.localStorage.clear();
+    console.log(customers);
+  } else {
+    localStorage.setItem("customers", JSON.stringify(customers));
+    console.log(customersFromLocalStorage);
   }
 };
 
@@ -73,7 +76,7 @@ function storeCreatedPin() {
       // console.log("Phone number already exist");
       item.pinGenerated.push(currentGenerated);
 
-      return;
+      // return;
     }
   }
 
@@ -85,73 +88,52 @@ function storeCreatedPin() {
 
   customers.push(customer);
   localStorage.setItem("customers", JSON.stringify(customers));
-
-}
-
-function checkCreatedPin() {
-  customers.forEach(list => {
-    for (let itemPin of list.pinGenerated) {
-      if (itemPin.pin === pin) {
-        return createPin(phoneNumber.value, simNetwork.value);
-        console.log("Same Pin Generated");
-      } else {
-        console.log("New Pin Generated");
-        storeCreatedPin();
-
-      }
-    }
-  })
   eraseGeneratedValues();
 }
 
-function createPin(line, sim) {
-  let phone = line.split(""),
-    network = sim.toLowerCase(),
-    simCode = [],
-    letters = "0abcdefghijklmnopqrstuvwxyz";
+function checkCreatedPin() {
+  // customers.forEach(list => {
+  //   for (let itemPin of list.pinGenerated) {
+  //     if (itemPin.pin === pin) {
+  //       createPin();
+  //       console.log("Same Pin Generated");
+  //     } else {
+  //       console.log("New Pin Generated");
+        storeCreatedPin();
 
-  for (let i = 0; i < letters.length; i++) {
-    if (network.includes(letters[i])) {
-      i.length > 1 ? simCode.push([...i]) : simCode.push(i);
-    }
+  //     }
+  //   }
+  // })
+}
+
+function createPin(phoneNumber, network) {
+  let phone = [...phoneNumber];
+  console.log(phoneNumber, network)
+
+      phoneDigits = phone.filter(i => +(i) % 2 === 0 && Number(i) <= 8)
+      let identifier = [...new Set(phoneDigits)] //get unique numbers
+      console.log(identifier)
+
+      const total = identifier.reduce((acc, i)=>{
+      acc += Number(i)
+       return acc/2;
+    },0)
+  const randomDigits = () => { return Math.floor(Math.random() *  total)}
+  for (let i = 0; i < 14; i++) {
+    pin += [randomDigits()];
   }
-
-  let pinSource = phone.concat(simCode), n = pinSource.length;
-
-  const randomDigits = () => {
-    return Math.floor(Math.random() * n);
-  }
-
-  for (let i = 0; i < n; i++) {
-    pin += pinSource[randomDigits()];
-    if (network === "mtn") {
-      if (pin.length === 12) {
-        break;
-      }
-    } else if (network === "airtel" || network === "glo") {
-      if (pin.length === 14) {
-        break;
-      }
-    } else if (network === "etisalat") {
-      if (pin.length === 16) {
-        break;
-      }
-    }
-  }
-  console.log(`Network: ${network} Pin: ${pin} Pin-Length: ${pin.length}`)
+  console.log(pin)
+  console.log(pin.length)
+  // pin = ""
   checkCreatedPin();
 }
 
 function validateInput() {
-
-  if (phoneNumber.value.length === 11 &&
-    Number(phoneNumber.value) &&
-    simNetwork.value !== "Select Sim Network...") {
+  if (phoneNumber.value.length === 11 && Number(phoneNumber.value) && simNetwork.value !== "Select Sim Network...") {
     createPin(phoneNumber.value, simNetwork.value);
   } else {
     console.log("Enter valid input");
   }
-
 }
 
 generateOnKeyPress.forEach(item => {

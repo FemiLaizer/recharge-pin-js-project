@@ -10,11 +10,12 @@
 </head>
 
 <body>
-    <div class="container">
-        <div>
-            <h1>This page will generate unique recharge pin for you</h1>
+    <div class="container box">
+        <div class="left box">
+            <h1>generate recharge pin</h1>
+             <h1>load it in the second box</h1>
         </div>
-        <div class="box">
+        <div class="right box">
             <div class="generate">
                 <p>
                     <label for="phone-number">Phone Number</label>
@@ -37,7 +38,6 @@
                 </p>
                 <button onclick="validateInput()" id="generate-pin">Generate pin</button>
             </div>
-            <div class="box">
             <div class="loading">
                 <p>
                     <label for="card-pin">Card Pin</label>
@@ -47,9 +47,7 @@
                 </p>
                 <button onclick="loadPin()" id="load-pin">Recharge pin</button>
             </div>
-        </div>
-        </div>
-        
+        </div>        
     </div>
     <script src="main.js"></script>
 </body>
